@@ -30,6 +30,9 @@ public class ConcurrentLinkedList{
                 while(marked[0]){
                     snip = pred.next.compareAndSet(curr, succ, false, false);
                     if(!snip) continue retry;
+                    if(succ == null){
+                        return new Window(pred, succ);
+                    }
                     curr = succ;
                     succ = curr.next.get(marked);
                 }
