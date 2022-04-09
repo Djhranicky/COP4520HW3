@@ -1,20 +1,39 @@
 package presents;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
+/**
+ * Implementation of a lock free concurrent linked list. Only takes ints as
+ * values, and is always sorted least to greatest.
+ */
 public class ConcurrentLinkedList{
     private Node head;
 
+    /**
+     * Create an "empty" ConcurrentLinkedList. Integer.MIN_VALUE is the sentinel node
+     */
     public ConcurrentLinkedList(){
         this.head = new Node(Integer.MIN_VALUE);
         this.head.next = new AtomicMarkableReference<Node>(null, false);
     }
 
+    /**
+     * Create a ConcurrentLinkedList with the given value as the first node.
+     * Integer.MINVALUE is the sentinel node.
+     * 
+     * @param value Value to be initialized
+     */
     public ConcurrentLinkedList(int value){
         this.head = new Node(Integer.MIN_VALUE);
         Node next = new Node(value);
         this.head.next = new AtomicMarkableReference<Node>(next, false);
     }
 
+    /**
+     * Finds the node before and the node of a given value
+     * @param head The head of the ConcurrentLinkedList to search through
+     * @param key The value to find
+     * @return A new window object
+     */
     public Window find(Node head, int key){
         Node pred = null, curr = null, succ = null;
         boolean[] marked = {false};
@@ -66,7 +85,7 @@ public class ConcurrentLinkedList{
             if (curr == null){
                 curr = new Node(key);
                 curr.next = new AtomicMarkableReference<Node>(null, false);
-                pred.next.compareAndSet(null, curr, false, false);
+                if(pred.next.compareAndSet(null, curr, false, false)) return true;
             }
             if (curr.key == key){
                 return false;
@@ -107,6 +126,10 @@ public class ConcurrentLinkedList{
         }
         ret.append("]");
         return ret.toString();
+    }
+
+    public boolean isEmpty(){
+        return this.head.next.getReference() == null;
     }
 
     private class Node{
