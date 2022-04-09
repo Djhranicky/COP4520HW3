@@ -15,18 +15,10 @@ presents() {
     javac Presents.java
     java Presents
 }
-gui() {
-    javac -cp $LIB src/gui/GUI.java
-    java -cp $LIB src/gui/GUI
-}
 
 case "$1" in
     "presents"|"Presents")
         presents
-        ;;
-
-    "gui"|"Gui"|"GUI")
-        gui
         ;;
 
     "clean"|"Clean")
@@ -34,6 +26,6 @@ case "$1" in
         ;;
     *)
         echo "Usage: . sh.sh <mode>"
-        echo "Supported modes: presents, gui, and clean."
+        echo "Supported modes: presents and clean."
         ;;
 esac
