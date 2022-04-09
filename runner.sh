@@ -9,11 +9,11 @@ elif [ "$OSTYPE" == "cygwin" ]; then
 fi
 
 clean() {
-    rm *.class
+    rm presents/*.class
 }
 presents() {
-    javac Presents.java
-    java Presents
+    javac presents/Presents.java
+    java presents/Presents
 }
 
 case "$1" in

@@ -1,3 +1,5 @@
+package presents;
+
 import java.util.Random;
 
 public class Servants implements Runnable{
