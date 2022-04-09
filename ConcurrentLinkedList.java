@@ -80,7 +80,7 @@ public class ConcurrentLinkedList{
         while(true){
             Window window = find(this.head, key);
             Node pred = window.pred, curr = window.curr;
-            if(curr.key != key){
+            if(curr == null || curr.key != key){
                 return false;
             } else {
                 Node succ = curr.next.getReference();
