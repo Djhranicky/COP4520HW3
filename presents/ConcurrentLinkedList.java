@@ -51,9 +51,10 @@ public class ConcurrentLinkedList{
     public boolean contains(int key){
         boolean marked;
         Node curr = this.head;
-        while(curr.key < key){
+        while(curr != null && curr.key < key){
             curr = curr.next.getReference();
         }
+        if(curr == null) return false;
         marked = curr.next.isMarked();
         return (curr.key == key && !marked);
     }
