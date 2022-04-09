@@ -5,7 +5,7 @@ public class ConcurrentLinkedList{
 
     public ConcurrentLinkedList(){
         this.head = new Node(Integer.MIN_VALUE);
-        this.head.next = null;
+        this.head.next = new AtomicMarkableReference<Node>(null, false);
     }
 
     public ConcurrentLinkedList(int value){
@@ -20,6 +20,9 @@ public class ConcurrentLinkedList{
         boolean snip;
         retry: while(true){
             pred = head;
+            if(pred.next.getReference() == null){
+                return new Window(pred, curr);
+            }
             curr = pred.next.getReference();
             while(true){
                 succ = curr.next.get(marked);
@@ -31,6 +34,9 @@ public class ConcurrentLinkedList{
                 }
                 if(curr.key >= key){
                     return new Window(pred, curr);
+                }
+                if(succ == null){
+                    return new Window(curr, succ);
                 }
                 pred = curr;
                 curr = succ;
@@ -52,6 +58,11 @@ public class ConcurrentLinkedList{
         while(true){
             Window window = find(this.head, key);
             Node pred = window.pred, curr = window.curr;
+            if (curr == null){
+                curr = new Node(key);
+                curr.next = new AtomicMarkableReference<Node>(null, false);
+                pred.next.compareAndSet(null, curr, false, false);
+            }
             if (curr.key == key){
                 return false;
             } else {
@@ -79,6 +90,18 @@ public class ConcurrentLinkedList{
                 return true;
             }
         }
+    }
+
+    public String toString(){
+        StringBuilder ret = new StringBuilder();
+        ret.append("[");
+        Node curr = head.next.getReference();
+        while(curr != null){
+            ret.append(curr.key+", ");
+            curr = curr.next.getReference();
+        }
+        ret.append("]");
+        return ret.toString();
     }
 
     private class Node{
