@@ -47,17 +47,13 @@ public class Temperature {
                 Arrays.sort(minute);
                 for(int j = 0; j < 8; j++){
                     double cur = minute[j];
-                    boolean lowSet = false;
-                    boolean highSet = false;
-                    for(int k = 0; k < 5; k++){
-                        if(!lowSet && cur < lowest[k]){
-                            lowest[k] = cur;
-                            lowSet = true;
-                        }
-                        if(!highSet && cur > highest[4-k]){
-                            highest[4-k] = cur;
-                            highSet = true;
-                        }
+                    if(cur < lowest[4]){
+                        lowest[4] = cur;
+                        Arrays.sort(lowest);
+                    }
+                    if(cur > highest[0]){
+                        highest[0] = cur;
+                        Arrays.sort(highest);
                     }
                 }
                 extremes[i][0] = minute[0];
