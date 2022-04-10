@@ -45,7 +45,11 @@ public class ConcurrentLinkedList{
             }
             curr = pred.next.getReference();
             while(true){
-                succ = curr.next.get(marked);
+                try{
+                    succ = curr.next.get(marked);
+                } catch (Exception e){
+                    continue retry;
+                }
                 while(marked[0]){
                     snip = pred.next.compareAndSet(curr, succ, false, false);
                     if(!snip) continue retry;
@@ -128,11 +132,15 @@ public class ConcurrentLinkedList{
         return ret.toString();
     }
 
+    public Node poll(){
+        return head.next.getReference();
+    }
+
     public boolean isEmpty(){
         return this.head.next.getReference() == null;
     }
 
-    private class Node{
+    public class Node{
         int key;
         AtomicMarkableReference<Node> next;
 

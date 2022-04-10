@@ -2,6 +2,7 @@ package presents;
 
 import java.util.Random;
 import java.util.ArrayList;
+import presents.ConcurrentLinkedList.Node;
 
 public class Servants implements Runnable{
 
@@ -30,26 +31,28 @@ public class Servants implements Runnable{
         int lastGift = giftNum + (numGifts/4)-1;
         while(running){
             if((step+1) % CHECK_FREQ == 0){
-                int check = r.nextInt(addedGifts.size());
-                if(presents.contains(check)) {System.out.println("Is "+addedGifts.get(check)+" in the chain? Yes.");}
+                int check = r.nextInt(numGifts);
+                if(presents.contains(check)) {System.out.println("Is "+check+" in the chain? Yes.");}
                 else {System.out.println("Is "+check+" in the chain? No.");}
             }
-            else if((step+1) % 5 == 0){
-                if(addedGifts.isEmpty()){
-                    running=false;
-                    break;
+            if((step+1) % 2 == 0){
+                Node bleh = presents.poll();
+                if(bleh == null){
+                    continue;
                 }
-                int bleh = addedGifts.remove(0);
-                presents.remove(bleh);
-                if(presents.isEmpty()){
-                    running=false;
-                    break;
+                presents.remove(bleh.key);
+            } else {
+                if(giftNum>lastGift){
+                    step++;
+                    continue;
                 }
-            } else if (giftNum < lastGift) {
                 num = bag.get(giftNum);
                 presents.add(num);
-                addedGifts.add(num);
                 giftNum++;
+            }
+            if(giftNum > lastGift && presents.isEmpty()){
+                running=false;
+                break;
             }
             step++;
         }
