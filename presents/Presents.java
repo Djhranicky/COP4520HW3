@@ -4,13 +4,11 @@ package presents;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Presents{
 
     public static void main(String[] args){
         ConcurrentLinkedList presents = new ConcurrentLinkedList();
-        AtomicInteger TYnote = new AtomicInteger();
         
         int numGifts = 500000;
         ArrayList<Integer> bag = new ArrayList<Integer>();
@@ -22,7 +20,7 @@ public class Presents{
         int numServants = 4;
         Thread[] threads = new Thread[numServants];
         for(int i = 0; i < numServants; i++){
-            threads[i] = new Thread(new Servants(presents, bag, numGifts, TYnote));
+            threads[i] = new Thread(new Servants(presents, bag, numGifts, i));
             threads[i].start();
         }
         for(int i = 0; i < numServants; i++){
