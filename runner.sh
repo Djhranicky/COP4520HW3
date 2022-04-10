@@ -10,15 +10,24 @@ fi
 
 clean() {
     rm presents/*.class
+    rm temperature/*.class
 }
 presents() {
     javac presents/Presents.java
     java presents/Presents
 }
+temp() {
+    javac temperature/Temperature.java
+    java temperature/Temperature
+}
 
 case "$1" in
     "presents"|"Presents")
         presents
+        ;;
+
+    "temp"|"Temp"|"temperature"|"Temperature")
+        temp
         ;;
 
     "clean"|"Clean")
