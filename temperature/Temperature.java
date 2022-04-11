@@ -67,6 +67,9 @@ public class Temperature {
                 Arrays.sort(minute);
                 for(int j = 0; j < 8; j++){
                     double cur = minute[j];
+                    if(cur == 0.0){
+                        System.out.println("SENSOR DATA WAS MOST LIKELY NOT PROPERLY SAVED");
+                    }
                     if(cur < lowest[4]){
                         lowest[4] = cur;
                         Arrays.sort(lowest);
