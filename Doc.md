@@ -21,6 +21,8 @@ The issue that the minotaur was most likely having previously was that a servant
 
 With this implementation, situations like these are impossible as all of the methods are thread-safe.
 
+The program might need to be ran multiple times to have the contains calls result in a success. To keep the size of the chain small, all servants just pull from the front of the chain. This in turn makes random contains calls unlikely to result in a success.
+
 # Temperature Sensors
 
 ## Running Temperature.java
