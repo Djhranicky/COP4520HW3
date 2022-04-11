@@ -23,6 +23,8 @@ With this implementation, situations like these are impossible as all of the met
 
 The program might need to be ran multiple times to have the contains calls result in a success. To keep the size of the chain small, all servants just pull from the front of the chain. This in turn makes random contains calls unlikely to result in a success.
 
+At the end of execution, the remaining presents on the chain are printed.
+
 # Temperature Sensors
 
 ## Running Temperature.java

@@ -71,6 +71,11 @@ public class ConcurrentLinkedList{
         }
     }
 
+    /**
+     * Checks if a given value is in the linked list
+     * @param key Number to find in the list
+     * @return True if the list contains the given value, false other wise
+     */
     public boolean contains(int key){
         boolean marked;
         Node curr = this.head;
@@ -82,6 +87,12 @@ public class ConcurrentLinkedList{
         return (curr.key == key && !marked);
     }
 
+    /**
+     * Adds a given value to the linked list if it is not already present.
+     * Automatically sorts the list in ascending order.
+     * @param key Value to add to the list
+     * @return True if the addition is successful, false otherwise
+     */
     public boolean add(int key){
         while(true){
             Window window = find(this.head, key);
@@ -103,6 +114,13 @@ public class ConcurrentLinkedList{
         }
     }
 
+    /**
+     * Removes the given value from the linked list. Guaranteed to successfully
+     * logically remove the node from the list. If it is not physically
+     * removed, then it will be physically removed in the find method
+     * @param key Valye to remove from the list
+     * @return True if the value was removed, false otherwise
+     */
     public boolean remove(int key){
         boolean snip;
         while(true){
@@ -120,6 +138,10 @@ public class ConcurrentLinkedList{
         }
     }
 
+    /**
+     * Non-thread safe way to print the list. Ideally called outside of a
+     * concurrent context.
+     */
     public String toString(){
         StringBuilder ret = new StringBuilder();
         ret.append("[");
@@ -132,10 +154,18 @@ public class ConcurrentLinkedList{
         return ret.toString();
     }
 
+    /**
+     * 
+     * @return The first node in the list
+     */
     public Node poll(){
         return head.next.getReference();
     }
 
+    /**
+     * 
+     * @return True if the first node is null, indicating an empty list, and false otherwise
+     */
     public boolean isEmpty(){
         return this.head.next.getReference() == null;
     }
